@@ -1,0 +1,17 @@
+﻿doctype html
+html
+  head
+    meta(http-equiv='Content-Type', content='text/html; charset=utf-8')
+    title 學校測試
+  body
+    h1
+      | This school ID is #{sid};
+    h2
+      | 校名: #{school.schname} 國中小: #{school.level}
+    h2
+      | 電話: #{school.tel} 傳真: #{school.fax}
+    h2
+      | 地址: #{school.schooladdr}
+    h2
+      | 網址: 
+      a(href='#{school.schoolurl}', title='#{school.schoolurl}', target='_blank') http://www.yjp.ks.edu.tw

@@ -1,0 +1,80 @@
+﻿doctype html
+html
+  head
+    meta(charset='utf-8')
+    meta(http-equiv='X-UA-Compatible', content='IE=edge')
+    meta(name='viewport', content='width=device-width, initial-scale=1')
+    title 高雄市各中小學段考試題網站
+    meta(name='keywords', lang='zh-TW', content='國中試題 , 國小試題 , 高雄市教育雲')
+    meta(name='title', content='高雄市國中小試題網站')
+    meta(property='og:locale', content='zh_TW')
+    meta(property='og:title', content='高雄市國中小試題網站')
+    meta(property='og:type', content='website')
+    meta(property='og:url', content='http://exam.kh-city.net/')
+    meta(property='og:image', content='http://exam.kh-city.net/images/fb2.jpg')
+    meta(property='og:image:width', content='265')
+    meta(property='og:image:height', content='233')
+    meta(property='og:site_name', content='高雄市試題雲')
+    meta(property='og:description', content='提供高雄市國中小學復習用考古題，家長和同學可以查看相同版本的考古題。')
+    // bootstrap CSS
+    link(rel='stylesheet', href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css')
+    link(rel='stylesheet', href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css')
+    // jQuery
+    script(src='https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js')
+    script(src='//code.jquery.com/ui/1.11.4/jquery-ui.js')
+    // bootstrap JavaScript
+    script(src='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js')
+    // HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries
+    // WARNING: Respond.js doesn't work if you view the page via file://
+    //if lt IE 9
+      script(src='https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js')
+      script(src='https://oss.maxcdn.com/respond/1.4.2/respond.min.js')
+    script(src='/js/local/schools.js')
+    script(src='/js/local/main.js')
+  body
+    .container
+        .row
+            .col-xs-12.col-md-8.col-md-offset-2.text-center
+                .text-center
+                    img.img-responsive(src='images/title.jpg', alt='title')
+                .alert.alert-info(role='alert')
+                    h2 高雄市國中小試題網站
+                    p http://exam.kh-city.net/\
+    .container
+      .row.text-center
+        .col-xs-12.col-md-8.col-md-offset-2.text-center
+          .alert.alert-danger(role='alert')
+            .input-group
+              span#basic-addon3.input-group-addon 學校搜尋:
+              input#khschool0.form-control(type='text', placeholder='搜尋...')
+              span.input-group-btn
+                button#khgo0.btn.btn-default(type='button') 進入該校試題網
+            // /input-group
+            .input-group
+              span#basic-addon3.input-group-addon 選擇國中:
+              select#khregion1.form-control
+                option(value='All', selected='selected') 全部行政區
+              select#khschool1.form-control
+                option(value='0', selected='selected') 選擇學校
+              span.input-group-btn
+                button#khgo1.btn.btn-default(type='button') 進入該校試題網
+            // /input-group
+            .input-group
+              span#basic-addon3.input-group-addon 選擇國小:
+              select#khregion2.form-control
+                option(value='All', selected='selected') 全部行政區
+              select#khschool2.form-control
+                option(value='0', selected='selected') 選擇學校
+              span.input-group-btn
+                button#khgo2.btn.btn-default(type='button') 進入該校試題網
+            // /input-group
+    .container
+        .row
+            .col-xs-12.col-md-8.col-md-offset-2
+                .alert.alert-success
+                h4
+                | 說明：親愛的家長，您好。本網站試題係整理自國家教育研究院全國中小學題庫網和彰化縣中小學線上題庫。若考題無法下載是因為該題庫暫時無法連線。必須等到題庫恢復正常才能下載。造成您的不便，向您致歉。
+    .panel-footer
+        .text-center
+            span
+                a(target='_blank', href='https://www.facebook.com/smallforce4web') 中小學網站小型應援團(Small force for school websites)
