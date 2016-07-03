@@ -102,7 +102,7 @@ html(lang='zh-TW')
               });//jQuery initializations
               function InitClientGrid() {
               $("#jqGrid").jqGrid({
-              url:'/refsjson',
+              url:'#{url}/refsjson',
               postData: {
               sname: function() { return $("#sname").val();},
               grade: function() { return $("#grade").val();},

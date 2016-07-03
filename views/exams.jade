@@ -146,7 +146,7 @@ html(lang='zh-TW')
               });//jQuery initializations
               function InitClientGrid() {
               $("#jqGrid").jqGrid({
-              url:'http://localhost:1337/examjson',
+              url:'#{url}/examjson',
               postData: {
               sid: function() { return $("#sid").val();},
               level: function() { return $("#level").val();},

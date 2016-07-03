@@ -8,52 +8,31 @@ router.get('/', function (req, res) {
 
 router.get('/:sid/rtest', function (req, res) {
     var sid = req.params.sid;
-    // Retrieve
-    var MongoClient = require('mongodb').MongoClient;
 
-    // Connect to the db
-    MongoClient.connect("mongodb://localhost:27017/twexam", function (err, db) {
-        if (err) { return console.dir(err); }
-        db.collection('school').findOne({ sid: sid }, function (err, doc) {
-            console.log(doc);
-            res.render('rtest', { title: 'R測試頁', sid: sid, school: doc });
-        });
+    req.db.collection('school').findOne({ sid: sid }, function (err, doc) {
+        if (err) { return console.log(err); }
+
+        res.render('rtest', { title: 'R測試頁', sid: sid, school: doc });
     });
 });
 router.get('/:sid/exams', function (req, res) {
     var sid = req.params.sid;
-    // Retrieve
-    var MongoClient = require('mongodb').MongoClient;
-
-    // Connect to the db
-    MongoClient.connect("mongodb://localhost:27017/twexam", function (err, db) {
+    
+    req.db.collection('school').findOne({ sid: sid }, function (err, doc) {
         if (err) { return console.log(err); }
-
-        db.collection('school').findOne({ sid: sid }, function (err, doc) {
-            if (err) { return console.log(err); }
-
-            res.render('exams', { sid: sid, school: doc });
-        });
-
-
+        var url = req.protocol + '://' + req.get('host');
+        res.render('exams', { url: url, sid: sid, school: doc });
     });
 });
 router.get('/:sid/showrefs', function (req, res) {
     var sid = req.params.sid;
     var pno = req.query.pno;
-    // Retrieve
-    var MongoClient = require('mongodb').MongoClient;
-
-    // Connect to the db
-    MongoClient.connect("mongodb://localhost:27017/twexam", function (err, db) {
+    req.db.collection('school').findOne({ sid: sid }, function (err, school) {
         if (err) { return console.log(err); }
-
-        db.collection('school').findOne({ sid: sid }, function (err, school) {
+        req.db.collection('paper').findOne({ _id: pno }, function (err, paper) {
             if (err) { return console.log(err); }
-            db.collection('paper').findOne({ _id: pno }, function (err, paper) {
-                if (err) { return console.log(err); }
-                res.render('showrefs', { sid: sid, school: school, paper: paper });
-            });
+            var url = req.protocol + '://' + req.get('host');
+            res.render('showrefs', { url: url, sid: sid, school: school, paper: paper });
         });
     });
 });
@@ -144,39 +123,32 @@ router.get('/examjson', function (req, res) {
         res.end();
     });*/
 	
-	// Retrieve
-	var MongoClient = require('mongodb').MongoClient;
-	
-	// Connect to the db
-	MongoClient.connect("mongodb://localhost:27017/twexam", function (err, db) {
-        if (err) { return console.dir(err); }
         //$sql = "SELECT * FROM paper WHERE ".$filter." ORDER BY $sidx $sord LIMIT $start , $limit";
         //var filter = { sid: sid, level: level, semester: semester, grade: grade, subject: subject };
         //var filter = { sid: sid};
-        db.collection('paper').find(filter).count(function (err, count) {
-            if (err) { return console.log(err); }
-            //{"records":"270","page":"1","total":14,"rows":[{"pno":"97950","semester":"1042","
-            var total = Math.ceil(count / limit);
-            var all = { records: count, page: page, total: total};
-            var skipCount = (page - 1) * limit;
+    req.db.collection('paper').find(filter).count(function (err, count) {
+        if (err) { return console.log(err); }
+        //{"records":"270","page":"1","total":14,"rows":[{"pno":"97950","semester":"1042","
+        var total = Math.ceil(count / limit);
+        var all = { records: count, page: page, total: total};
+        var skipCount = (page - 1) * limit;
             
-            db.collection('paper').find(filter).sort(sorter).skip(skipCount).limit(limit).toArray(function (err, docArray) {
-                if (err) { return console.log(err); }
+        req.db.collection('paper').find(filter).sort(sorter).skip(skipCount).limit(limit).toArray(function (err, docArray) {
+            if (err) { return console.log(err); }
 
-                for (var i = 0, len = docArray.length; i < len; i++) {
-                    if (docArray[i].publisher == "" || docArray[i].publisher == "其他")
-                        docArray[i].refpaper = 'none';
-                    else
-                        docArray[i].refpaper = docArray[i]._id;
-                }
+            for (var i = 0, len = docArray.length; i < len; i++) {
+                if (docArray[i].publisher == "" || docArray[i].publisher == "其他")
+                    docArray[i].refpaper = 'none';
+                else
+                    docArray[i].refpaper = docArray[i]._id;
+            }
 
-                all.rows = docArray;
-                res.send(all);
-                res.end();
-                db.close();
-            });
+            all.rows = docArray;
+            res.send(all);
+            res.end();
         });
-	});
+    });
+
 });
 router.get('/refsjson', function (req, res) {
     var pageStr = req.query.page;
@@ -264,31 +236,26 @@ router.get('/refsjson', function (req, res) {
         res.send(data);
         res.end();
     });*/
-    // Retrieve
-    var MongoClient = require('mongodb').MongoClient;
-    // Connect to the db
-    MongoClient.connect("mongodb://localhost:27017/twexam", function (err, db) {
-        if (err) { return console.dir(err); }
-        //$sql = "SELECT * FROM paper WHERE ".$filter." ORDER BY $sidx $sord LIMIT $start , $limit";
-        //var filter = { sid: sid, level: level, semester: semester, grade: grade, subject: subject };
-        //var filter = { sid: sid};
-        db.collection('oldtest').find(filter).count(function (err, count) {
+    
+    //$sql = "SELECT * FROM paper WHERE ".$filter." ORDER BY $sidx $sord LIMIT $start , $limit";
+    //var filter = { sid: sid, level: level, semester: semester, grade: grade, subject: subject };
+    //var filter = { sid: sid};
+    req.db.collection('oldtest').find(filter).count(function (err, count) {
+        if (err) { return console.log(err); }
+        //{"records":"270","page":"1","total":14,"rows":[{"pno":"97950","semester":"1042","
+        var total = Math.ceil(count / limit);
+
+        var all = { records: count, page: page, total: total };
+        var skipCount = (page - 1) * limit;
+
+        req.db.collection('oldtest').find(filter).sort(sorter).skip(skipCount).limit(limit).toArray(function (err, docArray) {
             if (err) { return console.log(err); }
-            //{"records":"270","page":"1","total":14,"rows":[{"pno":"97950","semester":"1042","
-            var total = Math.ceil(count / limit);
-
-            var all = { records: count, page: page, total: total };
-            var skipCount = (page - 1) * limit;
-
-            db.collection('oldtest').find(filter).sort(sorter).skip(skipCount).limit(limit).toArray(function (err, docArray) {
-                if (err) { return console.log(err); }
-                all.rows = docArray;
-                res.send(all);
-                res.end();
-                db.close();
-            });
+            all.rows = docArray;
+            res.send(all);
+            res.end();
         });
     });
+
 
 });
 

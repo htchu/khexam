@@ -1,9 +1,12 @@
-﻿var express = require('express');
+﻿//載入config.js
+var config = require('./config');
+var express = require('express');
 var path = require('path');
 var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
+var expressMongoDb = require('express-mongo-db');
 
 var routes = require('./routes/index');
 var users = require('./routes/users');
@@ -22,6 +25,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(require('stylus').middleware(path.join(__dirname, 'public')));
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(expressMongoDb(config.db[app.settings.env]));
 
 app.use('/', routes);
 app.use('/users', users);
